@@ -34,6 +34,7 @@ public class ActeurController {
 
     @PutMapping
     public Acteur update(@RequestBody Acteur acteur) {
+
         return acteurService.update(acteur);
     }
 

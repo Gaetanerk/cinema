@@ -7,18 +7,21 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
-public class FilmService {
-    private final FilmRepository filmRepository;
+public class FilmService {// on déclare le service
+    private final FilmRepository filmRepository;// on déclare le repository
 
-    public FilmService(FilmRepository filmRepository) {
-        this.filmRepository = filmRepository;
+    public FilmService(FilmRepository filmRepository) {// on injecte le repository dans le service
+
+        this.filmRepository = filmRepository;// on initialise le repository
     }
 
     public List<Film> findAll() {
+
         return filmRepository.findAll();
     }
 
     public Film save(Film film) {
+
         return filmRepository.save(film);
     }
 

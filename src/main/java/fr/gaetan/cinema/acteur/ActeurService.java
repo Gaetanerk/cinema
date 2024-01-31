@@ -11,14 +11,17 @@ public class ActeurService {
     private final ActeurRepository acteurRepository;
 
     public ActeurService(ActeurRepository acteurRepository) {
+
         this.acteurRepository = acteurRepository;
     }
 
     public List<Acteur> findAll() {
+
         return acteurRepository.findAll();
     }
 
     public Acteur save(Acteur acteur) {
+
         return acteurRepository.save(acteur);
     }
 
@@ -31,6 +34,7 @@ public class ActeurService {
     }
 
     public Acteur update(Acteur acteur) {
+
         return acteurRepository.save(acteur);
     }
 

@@ -11,14 +11,17 @@ public class RealisateurService {
     private final RealisateurRepository realisateurRepository;
 
     public RealisateurService(RealisateurRepository realisateurRepository) {
+
         this.realisateurRepository = realisateurRepository;
     }
 
     public List<Realisateur> findAll() {
+
         return realisateurRepository.findAll();
     }
 
     public Realisateur save(Realisateur realisateur) {
+
         return realisateurRepository.save(realisateur);
     }
 
@@ -31,6 +34,7 @@ public class RealisateurService {
     }
 
     public Realisateur update(Realisateur realisateur) {
+
         return realisateurRepository.save(realisateur);
     }
 

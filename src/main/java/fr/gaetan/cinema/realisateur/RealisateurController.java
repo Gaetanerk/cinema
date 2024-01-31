@@ -14,7 +14,7 @@ public class RealisateurController {
     }
 
     @PostMapping
-    public Realisateur save(Realisateur realisateur) {
+    public Realisateur save(@RequestBody Realisateur realisateur) {
 
         return realisateurService.save(realisateur);
     }
@@ -26,19 +26,19 @@ public class RealisateurController {
     }
 
     @GetMapping("{id}")
-    public Realisateur findById(Integer id) {
+    public Realisateur findById(@PathVariable Integer id) {
 
         return realisateurService.findById(id);
     }
 
     @PutMapping
-    public Realisateur update(Realisateur realisateur) {
+    public Realisateur update(@RequestBody Realisateur realisateur) {
 
         return realisateurService.update(realisateur);
     }
 
     @DeleteMapping("{id}")
-    public void deleteById(Integer id) {
+    public void deleteById(@PathVariable Integer id) {
 
         realisateurService.deleteById(id);
     }
