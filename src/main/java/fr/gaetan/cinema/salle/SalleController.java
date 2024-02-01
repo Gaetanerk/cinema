@@ -1,6 +1,7 @@
 package fr.gaetan.cinema.salle;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.gaetan.cinema.salle.dto.SalleCapaciteDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -43,5 +44,10 @@ public class SalleController {
     @DeleteMapping("{id}")
     public void deleteById(@PathVariable Integer id) {
         salleService.deleteById(id);
+    }
+
+    @GetMapping("{id}/capacite")
+    public SalleCapaciteDto findCapaciteBySalleId(@PathVariable Integer id) {
+        return salleService.findCapaciteBySalleId(id);
     }
 }

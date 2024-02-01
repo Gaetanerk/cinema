@@ -5,7 +5,6 @@ import fr.gaetan.cinema.film.Film;
 import fr.gaetan.cinema.film.FilmService;
 import fr.gaetan.cinema.film.dto.FilmAvecTitreDateSortieDto;
 import fr.gaetan.cinema.realisateur.dto.RealisateurAvecFilmsDto;
-import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -57,11 +56,7 @@ public class RealisateurService {
         filmsAvecCeRealisateur.forEach(
                 film -> {
                     film.setRealisateur(null);
-                    try {
-                        filmService.save(film);
-                    } catch (BadRequestException e) {
-                        throw new RuntimeException(e);
-                    }
+                    filmService.save(film);
                 }
         );
 

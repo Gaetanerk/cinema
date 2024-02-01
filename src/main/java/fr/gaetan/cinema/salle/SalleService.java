@@ -1,5 +1,6 @@
 package fr.gaetan.cinema.salle;
 
+import fr.gaetan.cinema.salle.dto.SalleCapaciteDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -38,5 +39,15 @@ public class SalleService {
     public void deleteById(Integer id) {
         Salle salle = this.findById(id);
         salleRepository.delete(salle);
+    }
+
+    public SalleCapaciteDto findCapaciteBySalleId(Integer id) {
+        Salle salle = this.findById(id);
+
+        SalleCapaciteDto salleCapaciteDto = new SalleCapaciteDto();
+
+        salleCapaciteDto.setCapacite(salle.getCapacite());
+
+        return salleCapaciteDto;
     }
 }
