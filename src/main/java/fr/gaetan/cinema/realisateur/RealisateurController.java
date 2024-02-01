@@ -1,5 +1,10 @@
 package fr.gaetan.cinema.realisateur;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.gaetan.cinema.film.Film;
+import fr.gaetan.cinema.film.FilmRepository;
+import fr.gaetan.cinema.film.FilmService;
+import fr.gaetan.cinema.realisateur.dto.RealisateurNomPrenomFilmsDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,8 +14,12 @@ import java.util.List;
 public class RealisateurController {
     private final RealisateurService realisateurService;
 
-    public RealisateurController(RealisateurService realisateurService) {
+    private final ObjectMapper objectMapper;
+
+    public RealisateurController(RealisateurService realisateurService,
+                                 ObjectMapper objectMapper) {
         this.realisateurService = realisateurService;
+        this.objectMapper = objectMapper;
     }
 
     @PostMapping
@@ -26,9 +35,9 @@ public class RealisateurController {
     }
 
     @GetMapping("{id}")
-    public Realisateur findById(@PathVariable Integer id) {
-
-        return realisateurService.findById(id);
+    public RealisateurNomPrenomFilmsDto findById(@PathVariable Integer id) {
+        Realisateur realisateur = realisateurService.findById(id);
+        return objectMapper.convertValue(realisateur, RealisateurNomPrenomFilmsDto.class);
     }
 
     @PutMapping

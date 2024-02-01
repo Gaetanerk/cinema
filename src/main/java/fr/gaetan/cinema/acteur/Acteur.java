@@ -22,7 +22,7 @@ public class Acteur {
     private Integer id;
     private String nom;
     private String prenom;
-    @ManyToMany(mappedBy = "acteurs", // on déclare le nom de la variable qui va faire la liaison
-            cascade = CascadeType.PERSIST)// on déclare la cascade
+
+    @ManyToMany(mappedBy = "acteurs")// on déclare le nom de la variable qui va faire la liaison
     private List<Film> films = new ArrayList<>();// on déclare une liste de film
 }

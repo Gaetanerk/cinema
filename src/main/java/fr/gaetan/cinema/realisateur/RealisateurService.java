@@ -1,5 +1,7 @@
 package fr.gaetan.cinema.realisateur;
 
+import fr.gaetan.cinema.film.Film;
+import fr.gaetan.cinema.film.FilmService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -9,10 +11,12 @@ import java.util.List;
 @Service
 public class RealisateurService {
     private final RealisateurRepository realisateurRepository;
+    private final FilmService filmService;
 
-    public RealisateurService(RealisateurRepository realisateurRepository) {
+    public RealisateurService(RealisateurRepository realisateurRepository, FilmService filmService) {
 
         this.realisateurRepository = realisateurRepository;
+        this.filmService = filmService;
     }
 
     public List<Realisateur> findAll() {
@@ -39,7 +43,17 @@ public class RealisateurService {
     }
 
     public void deleteById(Integer id) {
-        Realisateur realisateur = this.findById(id);
-        realisateurRepository.delete(realisateur);
+        this.findById(id);
+
+        List<Film> filmsAvecCeRealisateur = filmService.findAllByRealisateurId(id);
+
+        filmsAvecCeRealisateur.forEach(
+                film -> {
+                    film.setRealisateur(null);
+                    filmService.save(film);
+                }
+        );
+
+        realisateurRepository.deleteById(id);
     }
 }

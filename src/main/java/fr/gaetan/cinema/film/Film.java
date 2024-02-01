@@ -36,15 +36,16 @@ public class Film {
     @Column(length = 500)
     private String synopsis;
 
-    @ManyToOne(cascade = CascadeType.ALL)// un réalisateur peut avoir plusieurs films (Many Films To One Realisateur)
+    @ManyToOne// un réalisateur peut avoir plusieurs films (Many Films To One Realisateur)
     @JoinColumn(name = "realisateur_id")// on déclare la colonne qui va faire la liaison
     private Realisateur realisateur;//
 
-    @ManyToMany(cascade = CascadeType.PERSIST)// un acteur peut avoir plusieurs films et un film peut avoir plusieurs acteurs (Many Films To Many Acteurs)
+    @ManyToMany// un acteur peut avoir plusieurs films et un film peut avoir plusieurs acteurs (Many Films To Many Acteurs)
     @JoinTable(// on déclare la table de liaison
             name = "acteur_film",// on déclare le nom de la table de liaison
             joinColumns = @JoinColumn(name = "film_id"),// on déclare la colonne qui va faire la liaison
             inverseJoinColumns = @JoinColumn(name = "acteur_id")// on déclare la colonne qui va faire la liaison
     )
     private List<Acteur> acteurs = new ArrayList<>();
+
 }
