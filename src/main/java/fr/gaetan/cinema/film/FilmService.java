@@ -1,7 +1,7 @@
 package fr.gaetan.cinema.film;
 
 import fr.gaetan.cinema.acteur.Acteur;
-import fr.gaetan.cinema.realisateur.Realisateur;
+import fr.gaetan.cinema.acteur.ActeurService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,17 +13,15 @@ public class FilmService {// on déclare le service
     private final FilmRepository filmRepository;// on déclare le repository
 
     public FilmService(FilmRepository filmRepository) {// on injecte le repository dans le service
-
         this.filmRepository = filmRepository;// on initialise le repository
     }
+    private ActeurService acteurService;
 
     public List<Film> findAll() {
-
         return filmRepository.findAll();
     }
 
     public Film save(Film film) {
-
         return filmRepository.save(film);
     }
 
@@ -41,7 +39,6 @@ public class FilmService {// on déclare le service
     }
 
     public Film update(Film film) {
-
         return filmRepository.save(film);
     }// on met à jour le film
 
@@ -65,8 +62,10 @@ public class FilmService {// on déclare le service
         return film.getActeurs();
     }
 
-    public Realisateur findRealisateurByFilmId(Integer id) {
-        Film film = this.findById(id);
-        return film.getRealisateur();
-    }
+//    public Film addActeur(Integer id) {
+//        Film film = this.findById(id);
+//        Acteur acteur = acteurService.findById(id);
+//        film.getActeurs().add(acteur);
+//        return filmRepository.save(film);
+//    }
 }

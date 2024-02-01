@@ -2,9 +2,8 @@ package fr.gaetan.cinema.realisateur;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.gaetan.cinema.film.Film;
-import fr.gaetan.cinema.film.FilmRepository;
-import fr.gaetan.cinema.film.FilmService;
-import fr.gaetan.cinema.realisateur.dto.RealisateurNomPrenomFilmsDto;
+import fr.gaetan.cinema.film.dto.FilmsSansActeurNiRealisateurDto;
+import fr.gaetan.cinema.realisateur.dto.RealisateurAvecFilmsDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +23,6 @@ public class RealisateurController {
 
     @PostMapping
     public Realisateur save(@RequestBody Realisateur realisateur) {
-
         return realisateurService.save(realisateur);
     }
 
@@ -34,10 +32,9 @@ public class RealisateurController {
         return realisateurService.findAll();
     }
 
-    @GetMapping("{id}")
-    public RealisateurNomPrenomFilmsDto findById(@PathVariable Integer id) {
-        Realisateur realisateur = realisateurService.findById(id);
-        return objectMapper.convertValue(realisateur, RealisateurNomPrenomFilmsDto.class);
+    @GetMapping("/{id}")
+    public RealisateurAvecFilmsDto findById(@PathVariable int id) {
+        return realisateurService.findRealisateurWithFilm(id);
     }
 
     @PutMapping
@@ -50,5 +47,14 @@ public class RealisateurController {
     public void deleteById(@PathVariable Integer id) {
 
         realisateurService.deleteById(id);
+    }
+
+    @GetMapping("/{id}/films")
+    public List<FilmsSansActeurNiRealisateurDto> findFilmsByRealisateurId(@PathVariable Integer id) {
+        List<Film> filmsDuRealisateur = realisateurService.findFilmsByRealisateurId(id);
+
+        return filmsDuRealisateur.stream().map(
+                film -> objectMapper.convertValue(film, FilmsSansActeurNiRealisateurDto.class)
+        ).toList();
     }
 }

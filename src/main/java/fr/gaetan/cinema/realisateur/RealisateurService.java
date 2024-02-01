@@ -1,7 +1,10 @@
 package fr.gaetan.cinema.realisateur;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.gaetan.cinema.film.Film;
 import fr.gaetan.cinema.film.FilmService;
+import fr.gaetan.cinema.film.dto.FilmAvecTitreDateSortieDto;
+import fr.gaetan.cinema.realisateur.dto.RealisateurAvecFilmsDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -12,15 +15,18 @@ import java.util.List;
 public class RealisateurService {
     private final RealisateurRepository realisateurRepository;
     private final FilmService filmService;
+    private final ObjectMapper objectMapper;
 
-    public RealisateurService(RealisateurRepository realisateurRepository, FilmService filmService) {
+    public RealisateurService(RealisateurRepository realisateurRepository,
+                              FilmService filmService,
+                              ObjectMapper objectMapper) {
 
         this.realisateurRepository = realisateurRepository;
         this.filmService = filmService;
+        this.objectMapper = objectMapper;
     }
 
     public List<Realisateur> findAll() {
-
         return realisateurRepository.findAll();
     }
 
@@ -55,5 +61,28 @@ public class RealisateurService {
         );
 
         realisateurRepository.deleteById(id);
+    }
+
+    public RealisateurAvecFilmsDto findRealisateurWithFilm(Integer id) {
+        Realisateur realisateur = this.findById(id);
+        List<Film> filmsDuRealisateur = filmService.findAllByRealisateurId(id);
+
+        RealisateurAvecFilmsDto realisateurAvecFilmsDto = new RealisateurAvecFilmsDto();
+
+        realisateurAvecFilmsDto.setNom(realisateur.getNom());
+        realisateurAvecFilmsDto.setPrenom(realisateur.getPrenom());
+
+        realisateurAvecFilmsDto.setFilms(
+                filmsDuRealisateur.stream().map(
+                        film -> objectMapper.convertValue(film, FilmAvecTitreDateSortieDto.class)
+                ).toList()
+        );
+
+        return realisateurAvecFilmsDto;
+    }
+
+
+    public List<Film> findFilmsByRealisateurId(Integer id) {
+        return filmService.findAllByRealisateurId(id);
     }
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class RealisateurNomPrenomFilmsDto {
+public class RealisateurAvecFilmsDto {
     private String nom;
     private String prenom;
     private List<FilmAvecTitreDateSortieDto> films = new ArrayList<>();

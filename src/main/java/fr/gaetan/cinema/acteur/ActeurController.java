@@ -22,7 +22,6 @@ public class ActeurController {
 
     @PostMapping
     public Acteur save(@RequestBody Acteur acteur) {
-
         return acteurService.save(acteur);
     }
 

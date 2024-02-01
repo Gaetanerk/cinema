@@ -1,11 +1,10 @@
 package fr.gaetan.cinema.film;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.gaetan.cinema.acteur.Acteur;
 import fr.gaetan.cinema.acteur.dto.ActeurSansIdDto;
 import fr.gaetan.cinema.film.dto.FilmCompletDto;
 import fr.gaetan.cinema.film.dto.FilmReduitDto;
-import fr.gaetan.cinema.realisateur.Realisateur;
-import fr.gaetan.cinema.realisateur.dto.RealisateurSansIdDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -35,6 +34,11 @@ public class FilmController {
         return filmService.save(film);
     }
 
+//    @PostMapping("/{id}/acteurs")
+//    public FilmCompletDto addActeur(@RequestBody Acteur acteur) {
+//        return filmService.addActeur(acteur);
+//    }
+
     @GetMapping("/{id}")// /films/1
     public FilmCompletDto findById(@PathVariable Integer id) {
         Film film = filmService.findById(id);
@@ -61,11 +65,5 @@ public class FilmController {
         return filmService.findAllActeursById(id).stream().map(
                 acteurs -> objectMapper.convertValue(acteurs, ActeurSansIdDto.class)
         ).toList();
-    }
-
-    @GetMapping("/{id}/realisateur")
-    public RealisateurSansIdDto findRealisateurByFilmId(@PathVariable Integer id) {
-        Realisateur realisateur = filmService.findRealisateurByFilmId(id);
-        return objectMapper.convertValue(realisateur, RealisateurSansIdDto.class);
     }
 }

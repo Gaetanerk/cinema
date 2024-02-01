@@ -11,5 +11,4 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
     Optional<Film> findByTitreContains(String titre);// cherche un film par son titre s'il contient
     Optional<Film> findByDateSortieAfter(LocalDate dateSortie);
     Optional<List<Film>> findAllByRealisateurId(Integer id);
-
 }
