@@ -2,9 +2,12 @@ package fr.gaetan.cinema.film;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.gaetan.cinema.acteur.Acteur;
+import fr.gaetan.cinema.acteur.dto.ActeurSansFilmDto;
 import fr.gaetan.cinema.acteur.dto.ActeurSansIdDto;
 import fr.gaetan.cinema.film.dto.FilmCompletDto;
 import fr.gaetan.cinema.film.dto.FilmReduitDto;
+import org.apache.coyote.BadRequestException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,14 +33,29 @@ public class FilmController {
     }
 
     @PostMapping
-    public Film save(@RequestBody Film film) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public Film save(@RequestBody Film film) throws BadRequestException {
         return filmService.save(film);
     }
 
-//    @PostMapping("/{id}/acteurs")
-//    public FilmCompletDto addActeur(@RequestBody Acteur acteur) {
-//        return filmService.addActeur(acteur);
-//    }
+    @PostMapping("/{id}/acteurs")
+    public FilmCompletDto addActeurToFilm(@PathVariable Integer id, @RequestBody Acteur acteur) throws BadRequestException {
+        Film film = filmService.addActeurToFilm(id, acteur);
+        FilmCompletDto filmCompletDto = new FilmCompletDto();
+        filmCompletDto.setId(film.getId());
+        filmCompletDto.setDuree(film.getDuree());
+        filmCompletDto.setRealisateur(film.getRealisateur());
+        filmCompletDto.setDateSortie(film.getDateSortie());
+        filmCompletDto.setSynopsis(film.getSynopsis());
+        filmCompletDto.setActeurs(
+                film.getActeurs().stream().map(
+                        unmappedActeur -> objectMapper.convertValue(
+                                unmappedActeur,
+                                ActeurSansFilmDto.class)
+                ).toList()
+        );
+        return filmCompletDto;
+    }
 
     @GetMapping("/{id}")// /films/1
     public FilmCompletDto findById(@PathVariable Integer id) {

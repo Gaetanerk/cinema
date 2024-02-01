@@ -3,7 +3,6 @@ package fr.gaetan.cinema.acteur;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.gaetan.cinema.acteur.dto.ActeurAvecFilmsDto;
 import fr.gaetan.cinema.acteur.dto.ActeurSansFilmDto;
-import fr.gaetan.cinema.film.Film;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
