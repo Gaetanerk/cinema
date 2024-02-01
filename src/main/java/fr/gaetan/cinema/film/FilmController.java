@@ -64,8 +64,8 @@ public class FilmController {
     }
 
     @GetMapping("/{id}/realisateur")
-    public RealisateurSansIdDto findRealisateurById(@PathVariable Integer id) {
-        Realisateur realisateur = filmService.findRealisateurById(id);
+    public RealisateurSansIdDto findRealisateurByFilmId(@PathVariable Integer id) {
+        Realisateur realisateur = filmService.findRealisateurByFilmId(id);
         return objectMapper.convertValue(realisateur, RealisateurSansIdDto.class);
     }
 }

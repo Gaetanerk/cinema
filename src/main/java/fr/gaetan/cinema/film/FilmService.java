@@ -65,7 +65,7 @@ public class FilmService {// on déclare le service
         return film.getActeurs();
     }
 
-    public Realisateur findRealisateurById(Integer id) {
+    public Realisateur findRealisateurByFilmId(Integer id) {
         Film film = this.findById(id);
         return film.getRealisateur();
     }
