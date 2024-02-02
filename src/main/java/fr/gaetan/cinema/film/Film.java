@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import fr.gaetan.cinema.acteur.Acteur;
 import fr.gaetan.cinema.realisateur.Realisateur;
+import fr.gaetan.cinema.seance.Seance;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,4 +49,7 @@ public class Film {
     )
     private List<Acteur> acteurs = new ArrayList<>();
 
+    @OneToMany// un film peut avoir plusieurs séances (One Film To Many Seances)
+    @JoinColumn(name = "seance_id")
+    private List<Seance> seances = new ArrayList<>();
 }

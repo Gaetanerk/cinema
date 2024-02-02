@@ -1,5 +1,9 @@
 package fr.gaetan.cinema.seance;
 
+import fr.gaetan.cinema.film.Film;
+import fr.gaetan.cinema.film.FilmService;
+import fr.gaetan.cinema.salle.Salle;
+import fr.gaetan.cinema.salle.SalleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -10,15 +14,23 @@ import java.util.List;
 public class SeanceService {
     private final SeanceRepository seanceRepository;
 
-    public SeanceService(SeanceRepository seanceRepository) {
+    private final FilmService filmService;
+    private final SalleService salleService;
+
+    public SeanceService(SeanceRepository seanceRepository,
+                         FilmService filmService,
+                         SalleService salleService) {
         this.seanceRepository = seanceRepository;
+        this.filmService = filmService;
+        this.salleService = salleService;
     }
 
     public List<Seance> findAll() {
         return seanceRepository.findAll();
     }
 
-    public Seance save(Seance seance) {
+    public Seance save(Integer id) {
+        Seance seance = this.findById(id);
         return seanceRepository.save(seance);
     }
 

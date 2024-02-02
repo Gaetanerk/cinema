@@ -1,6 +1,13 @@
 package fr.gaetan.cinema.seance;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.gaetan.cinema.film.Film;
+import fr.gaetan.cinema.film.FilmService;
+import fr.gaetan.cinema.salle.Salle;
+import fr.gaetan.cinema.salle.SalleService;
+import fr.gaetan.cinema.seance.dto.SeanceAvecFilmSalleDatePrixDto;
+import org.apache.coyote.BadRequestException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,17 +16,34 @@ import java.util.List;
 @RequestMapping("/seances")
 public class SeanceController {
     private final SeanceService seanceService;
-
+    private final FilmService filmService;
+    private final SalleService salleService;
     private final ObjectMapper objectMapper;
 
-    public SeanceController(SeanceService seanceService, ObjectMapper objectMapper) {
+    public SeanceController(SeanceService seanceService,
+                            FilmService filmService,
+                            SalleService salleService,
+                            ObjectMapper objectMapper) {
         this.seanceService = seanceService;
+        this.filmService = filmService;
+        this.salleService = salleService;
         this.objectMapper = objectMapper;
     }
 
     @PostMapping
-    public Seance save(@RequestBody Seance seance) {
-        return seanceService.save(seance);
+    @ResponseStatus(HttpStatus.CREATED)
+    public SeanceAvecFilmSalleDatePrixDto save(@RequestBody Integer idFilm,
+                                               @RequestBody Integer idSalle,
+                                               @RequestBody Seance seance)
+                                                throws BadRequestException {
+        Film film = filmService.findById(idFilm);
+        Salle salle = salleService.findById(idSalle);
+        SeanceAvecFilmSalleDatePrixDto seanceAvecFilmSalleDatePrixDto = new SeanceAvecFilmSalleDatePrixDto();
+        seanceAvecFilmSalleDatePrixDto.setFilm(film.getId());
+        seanceAvecFilmSalleDatePrixDto.setSalle(salle.getId());
+        seanceAvecFilmSalleDatePrixDto.setDate(seance.getDate());
+        seanceAvecFilmSalleDatePrixDto.setPrix(seance.getPrix());
+        return seanceAvecFilmSalleDatePrixDto;
     }
 
     @GetMapping

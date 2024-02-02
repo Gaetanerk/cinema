@@ -1,8 +1,7 @@
 package fr.gaetan.cinema.ticket;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import fr.gaetan.cinema.seance.Seance;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,4 +17,5 @@ public class Ticket {
     private int seance;
     private String nomClient;
     private int nbPlaces;
+
 }
