@@ -1,6 +1,5 @@
 package fr.gaetan.cinema.salle;
 
-import fr.gaetan.cinema.seance.Seance;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

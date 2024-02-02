@@ -49,7 +49,4 @@ public class Film {
     )
     private List<Acteur> acteurs = new ArrayList<>();
 
-    @OneToMany// un film peut avoir plusieurs séances (One Film To Many Seances)
-    @JoinColumn(name = "seance_id")
-    private List<Seance> seances = new ArrayList<>();
 }

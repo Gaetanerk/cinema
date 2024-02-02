@@ -3,13 +3,14 @@ package fr.gaetan.cinema.seance;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.gaetan.cinema.film.Film;
 import fr.gaetan.cinema.film.FilmService;
+import fr.gaetan.cinema.film.exception.BadRequestException;
 import fr.gaetan.cinema.salle.Salle;
 import fr.gaetan.cinema.salle.SalleService;
 import fr.gaetan.cinema.seance.dto.SeanceAvecFilmSalleDatePrixDto;
-import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLOutput;
 import java.util.List;
 
 @RestController
@@ -32,20 +33,23 @@ public class SeanceController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SeanceAvecFilmSalleDatePrixDto save(@RequestBody Integer idFilm,
-                                               @RequestBody Integer idSalle,
-                                               @RequestBody Seance seance)
-                                                throws BadRequestException {
-        Film film = filmService.findById(idFilm);
-        Salle salle = salleService.findById(idSalle);
-        SeanceAvecFilmSalleDatePrixDto seanceAvecFilmSalleDatePrixDto = new SeanceAvecFilmSalleDatePrixDto();
-        seanceAvecFilmSalleDatePrixDto.setFilm(film.getId());
-        seanceAvecFilmSalleDatePrixDto.setSalle(salle.getId());
-        seanceAvecFilmSalleDatePrixDto.setDate(seance.getDate());
-        seanceAvecFilmSalleDatePrixDto.setPrix(seance.getPrix());
-        return seanceAvecFilmSalleDatePrixDto;
+    public SeanceAvecFilmSalleDatePrixDto save(@RequestBody Seance seance)
+            throws BadRequestException {
+        Film film = filmService.findById(seance.getFilm().getId());
+        System.out.println(seance.getFilm().getId());
+        Salle salle = salleService.findById(seance.getSalle().getId());
+        seance.setFilm(film);
+        seance.setSalle(salle);
+        seanceService.save(seance);
+//        SeanceAvecFilmSalleDatePrixDto seanceAvecFilmSalleDatePrixDto = new SeanceAvecFilmSalleDatePrixDto();
+//        seanceAvecFilmSalleDatePrixDto.setFilm(film.getId());
+//        seanceAvecFilmSalleDatePrixDto.setSalle(salle.getId());
+//        seanceAvecFilmSalleDatePrixDto.setDate(seance.getDate());
+//        seanceAvecFilmSalleDatePrixDto.setPrix(seance.getPrix());
+//        objectMapper.convertValue(seanceAvecFilmSalleDatePrixDto, SeanceAvecFilmSalleDatePrixDto.class);
+//        return seanceAvecFilmSalleDatePrixDto;
+    return new SeanceAvecFilmSalleDatePrixDto();
     }
-
     @GetMapping
     public List<Seance> findAll() {
         return seanceService.findAll().stream().map(

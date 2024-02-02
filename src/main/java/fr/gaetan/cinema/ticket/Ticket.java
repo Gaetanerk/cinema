@@ -14,8 +14,10 @@ public class Ticket {
     @Id
     @GeneratedValue
     private Integer id;
-    private int seance;
     private String nomClient;
     private int nbPlaces;
 
+//    @ManyToOne// une séance peut avoir plusieurs tickets (Many Tickets To One Seance)
+//    @JoinColumn(name = "seance_id")
+//    private Seance seance;
 }

@@ -6,8 +6,8 @@ import java.time.LocalDate;
 
 @Data
 public class SeanceAvecFilmSalleDatePrixDto {
-    private Integer film;
-    private Integer salle;
+    private int film;
+    private int salle;
     private LocalDate date;
     private float prix;
 }
